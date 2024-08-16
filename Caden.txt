@@ -1,0 +1,15 @@
+Caden
+1
+76
+100
+15
+30
+10
+50
+Goblin Mace
+Inventory:
+Goblin Mace
+1
+Junk
+1
+END INVENTORY

@@ -2,15 +2,19 @@ public class Item implements Comparable<Item> {
     private String name;
     private int value;
     private boolean isWeapon;
+    private boolean isFood;
     private int atk;
     private int str;
+    private int hp;
 
-    public Item(String name, int value, boolean isWeapon) {
+    public Item(String name, int value, boolean isWeapon, boolean isFood) {
         this.name = name;
         this.value = value;
         this.isWeapon = isWeapon;
+        this.isFood = isFood;
         this.atk = 0;
         this.str = 0;
+        
     }
 
     public int getValue() {
@@ -23,6 +27,10 @@ public class Item implements Comparable<Item> {
 
     public boolean isWeapon() {
         return this.isWeapon;
+    }
+
+    public boolean isFood() {
+        return this.isFood;
     }
 
     public int getAtk() {
@@ -38,6 +46,16 @@ public class Item implements Comparable<Item> {
             this.atk = atk;
             this.str = str;
         }
+    }
+
+    public void setHp(int hp) {
+        if (this.isFood()) {
+            this.hp = hp;
+        }
+    }
+
+    public int getHp() {
+        return this.hp;
     }
 
     public void displayInfo() {

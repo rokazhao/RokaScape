@@ -18,6 +18,7 @@ public class Monster {
         this.hp = maxHp;
         this.atk = atk;
         this.str = str;
+        this.def = def;
         this.order = order;
         this.dropTable = new TreeMap<>();
     }
@@ -73,6 +74,7 @@ public class Monster {
         for (Integer num : dropTable.keySet()) {
             if (roll == num) {
                 currentDrop = dropTable.get(num);
+                break;
             }
             
         }
