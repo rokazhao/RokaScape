@@ -136,7 +136,7 @@ public class Character {
         }
         return false;
     }
-    
+
     // CHARACTER GAINS XP (BATTLE SEQUENCE)
     public void gainXp(int amount) {
         this.xp += amount;
@@ -156,11 +156,19 @@ public class Character {
 
     // CHARACTER DAMAGED (BATTLE SEQUENCE)
     public void heroHit(int dmg) {
-        if ((this.hp - dmg) > 0) {
-            this.hp = this.hp - dmg;
+        // losing hp
+        if (dmg >= 0) {
+            if ((this.hp - dmg) > 0) {
+                this.hp = this.hp - dmg;
+            } else {
+                this.hp = 0;
+            }
         } else {
-            this.hp = 0;
+            if ((this.hp - dmg) > this.maxHp) {
+                this.hp = this.maxHp;
+            }
         }
+
     }
 
     // CHARACTER DIES, LOSES HALF OF GOLD
@@ -230,7 +238,15 @@ public class Character {
         }
     }
 
-    //GETTER METHODS
+    public void gainGP(int amount) {
+        this.gp = this.gp + amount;
+    }
+
+    public void loseGP(int amount) {
+        this.gp = this.gp - amount;
+    }
+
+    // GETTER METHODS
 
     public String getName() {
         return this.charName;
@@ -262,6 +278,14 @@ public class Character {
 
     public int getMaxHp() {
         return this.maxHp;
+    }
+
+    public int getGP() {
+        return this.gp;
+    }
+    
+    public Item getWep() {
+        return this.weapon;
     }
 
     public Map<Item, Integer> getInv() {

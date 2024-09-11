@@ -1,15 +1,17 @@
 Caden
-1
-76
-100
-15
-30
-10
-50
-Goblin Mace
+2
+32
+105
+31
+31
+11
+992
+Rune Scimitar
 Inventory:
+Gold Bar
+2
 Goblin Mace
 1
-Junk
+Rune Scimitar
 1
 END INVENTORY

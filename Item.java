@@ -3,15 +3,17 @@ public class Item implements Comparable<Item> {
     private int value;
     private boolean isWeapon;
     private boolean isFood;
+    private boolean isSold;
     private int atk;
     private int str;
     private int hp;
 
-    public Item(String name, int value, boolean isWeapon, boolean isFood) {
+    public Item(String name, int value, boolean isWeapon, boolean isFood, boolean isSold) {
         this.name = name;
         this.value = value;
         this.isWeapon = isWeapon;
         this.isFood = isFood;
+        this.isSold = isSold;
         this.atk = 0;
         this.str = 0;
         
@@ -27,6 +29,10 @@ public class Item implements Comparable<Item> {
 
     public boolean isWeapon() {
         return this.isWeapon;
+    }
+
+    public boolean isSold() {
+        return this.isSold;
     }
 
     public boolean isFood() {
@@ -73,7 +79,15 @@ public class Item implements Comparable<Item> {
     }
 
     public int compareTo(Item other) {
-        return this.name.compareTo(other.name);
+        int compare;
+        if (this.value > other.value) {
+            compare = 1;
+        } else if (this.value == other.value) {
+            compare = 0;
+        } else {
+            compare = -1;
+        }
+        return compare;
     }
 
 }
