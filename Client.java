@@ -453,8 +453,20 @@ public class Client {
                     System.out.println(itemCount + ": " + item);
                 }
             }
+            if (hero.getWep() != null) {
+                System.out.println((itemCount + 1) + ": Unequip weapon");
+            }
+            System.out.println("------------------------------");
 
             int weaponChoice = Integer.parseInt(console.nextLine());
+            
+            if (hero.getWep() != null) {
+                if (weaponChoice == itemCount + 1) {
+                    hero.unequipItem();
+                }
+            }
+            
+            
             itemCount = 1;
             for (Item item : hero.getInv().keySet()) {
                 if (weaponChoice == itemCount && item.isWeapon()) {
@@ -464,6 +476,8 @@ public class Client {
                     itemCount++;
                 }
             }
+
+            
         } else {
             System.out.println("You have no weapons to equip!");
         }

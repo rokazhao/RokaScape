@@ -211,7 +211,7 @@ public class Character {
                     }
 
                 }
-            } else {
+            } else if (key.isWeapon() && key.getName().equals(i.getItem(newWeapon).toString())) {
                 System.out.println(key + " equipped.");
                 this.weapon = key;
                 this.atk += this.weapon.getAtk();
