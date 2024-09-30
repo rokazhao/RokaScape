@@ -1,3 +1,6 @@
+import java.util.*;
+import java.io.*;
+
 public class Item implements Comparable<Item> {
     private String name;
     private int value;
@@ -7,6 +10,7 @@ public class Item implements Comparable<Item> {
     private int atk;
     private int str;
     private int hp;
+    private static Map<String, Item> itemMap = new TreeMap<>();
 
     public Item(String name, int value, boolean isWeapon, boolean isFood, boolean isSold) {
         this.name = name;
@@ -17,6 +21,22 @@ public class Item implements Comparable<Item> {
         this.atk = 0;
         this.str = 0;
         
+        itemMap.put(name, this);
+    }
+
+    public static Item getItemByName(String name) {
+        return itemMap.get(name);
+    }
+    
+
+    public static Map<String, Item> getItemMap() {
+        return itemMap;
+    }
+
+    public static List<Item> getItemsSortedByValue() {
+        List<Item> items = new ArrayList<>(itemMap.values());
+        Collections.sort(items);
+        return items;
     }
 
     public int getValue() {
@@ -79,15 +99,7 @@ public class Item implements Comparable<Item> {
     }
 
     public int compareTo(Item other) {
-        int compare;
-        if (this.value > other.value) {
-            compare = 1;
-        } else if (this.value == other.value) {
-            compare = 0;
-        } else {
-            compare = -1;
-        }
-        return compare;
+        return Integer.compare(this.getValue(), other.getValue());
     }
 
 }

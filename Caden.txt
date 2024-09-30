@@ -1,17 +1,26 @@
 Caden
-2
+3
+115
+110
 32
-105
-31
-31
-11
-992
+32
+12
+297
+Varrock
 Rune Scimitar
 Inventory:
-Gold Bar
-2
-Goblin Mace
+Junk
 1
+Shrimp
+21
+Trout
+54
+Varrock Rations
+1
+Goblin Sword
+2
+Steel Knuckles
+3
 Rune Scimitar
 1
 END INVENTORY

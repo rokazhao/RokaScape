@@ -48,8 +48,9 @@ public class Character {
         this.str = Integer.parseInt(scan.nextLine());
         this.def = Integer.parseInt(scan.nextLine());
         this.gp = Integer.parseInt(scan.nextLine());
-        CharManager manage = new CharManager();
-        this.weapon = manage.getItem(scan.nextLine());
+        this.loc = Area.getAreaByName(scan.nextLine());
+
+        this.weapon = Item.getItemByName(scan.nextLine());
         this.inv = new TreeMap<>();
         // this.cook = Integer.parseInt(scan.nextLine());
         // this.wc = Integer.parseInt(scan.nextLine());
@@ -62,7 +63,7 @@ public class Character {
             if (itemName.equals("END INVENTORY")) {
                 break;
             }
-            Item item = manage.getItem(itemName);
+            Item item = Item.getItemByName(itemName);
             int count = Integer.parseInt(scan.nextLine());
             this.addToInv(item, count);
         }
@@ -80,6 +81,7 @@ public class Character {
         out.println(str);
         out.println(def);
         out.println(gp);
+        out.println(loc.toString());
         out.println(weapon);
         out.println("Inventory:");
         // INVENTORY ITEMS
@@ -188,11 +190,10 @@ public class Character {
         if (this.weapon != null) {
             System.out.println("You currently have " + this.weapon + " equipped.");
         }
-        CharManager i = new CharManager();
         for (Item key : inv.keySet()) {
             if (this.weapon != null) {
                 // break
-                if (key.getName().equals(i.getItem(newWeapon).toString())) {
+                if (key.equals(Item.getItemByName(newWeapon))) {
                     if (key.isWeapon() && !(key.toString().equals(this.weapon.toString()))) {
                         if (this.weapon != null) {
                             this.atk -= this.weapon.getAtk();
@@ -211,7 +212,7 @@ public class Character {
                     }
 
                 }
-            } else if (key.isWeapon() && key.getName().equals(i.getItem(newWeapon).toString())) {
+            } else if (key.isWeapon() && key.equals(Item.getItemByName(newWeapon))) {
                 System.out.println(key + " equipped.");
                 this.weapon = key;
                 this.atk += this.weapon.getAtk();
@@ -230,9 +231,9 @@ public class Character {
     }
 
     // USING A PIECE OF FOOD/ITEM
-    public void lowerItemValue(Item key) {
+    public void lowerItemValue(Item key, int amount) {
         int currentCount = inv.get(key);
-        inv.put(key, currentCount - 1);
+        inv.put(key, currentCount - amount);
         if (inv.get(key) == 0) {
             inv.remove(key);
         }
@@ -244,6 +245,10 @@ public class Character {
 
     public void loseGP(int amount) {
         this.gp = this.gp - amount;
+    }
+
+    public void setHp(int hp) {
+        this.hp = hp;
     }
 
     // GETTER METHODS

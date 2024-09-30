@@ -7,8 +7,7 @@ import java.util.*;
 
 //Runs RokaScape
 public class Client {
-    private static Map<String, Area> areas = new HashMap<>();
-    CharManager c = new CharManager();
+    private static Map<String, Area> areas = new TreeMap<>();
 
     // MAIN
     public static void main(String[] args) throws FileNotFoundException {
@@ -52,37 +51,80 @@ public class Client {
         goblinClub.setStats(15, 30);
         Item runeScim = new Item("Rune Scimitar", 5000, true, false, true);
         runeScim.setStats(20, 20);
+        Item steelSword = new Item("Steel Sword", 250, true, false, true);
+        steelSword.setStats(5, 8);
+        Item addySword = new Item("Adamant Sword", 1000, true, false, false);
+        addySword.setStats(10, 14);
+        Item runeSword = new Item("Rune Sword", 4000, true, false, false);
+        runeSword.setStats(16, 21);
+        Item excalibur = new Item("Excalibur", 20000, true, false, false);
+        excalibur.setStats(50, 50);
+        Item steelKnuckles = new Item("Steel Knuckles", 250, true, false, true);
+        steelKnuckles.setStats(2, 15);
+        Item addyKnuckles = new Item("Adamant Knuckles", 1000, true, false, true);
+        addyKnuckles.setStats(4, 30);
+        Item runeKnuckles = new Item("Rune Knuckles", 4000, true, false, true);
+        runeKnuckles.setStats(10, 60);
+        Item arcaneStaff = new Item("Arcane Staff", 20000, true, false, false);
+        arcaneStaff.setStats(100, 25);
 
         // Food
         Item shrimp = new Item("Shrimp", 5, false, true, true);
         shrimp.setHp(5);
         Item trout = new Item("Trout", 10, false, true, true);
         trout.setHp(10);
+        Item shark = new Item("Shark", 50, false, true, true);
+        shark.setHp(20);
+        Item manta = new Item("Manta Ray", 100, false, true, true);
+        manta.setHp(30);
         Item rawBeef = new Item("Raw Beef", 5, false, true, false);
         rawBeef.setHp(5);
         Item goblinMeat = new Item("Goblin Meat", 5, false, true, false);
         goblinMeat.setHp(10);
+        Item varrockRations = new Item("Varrock Rations", 20, false, true, false);
+        varrockRations.setHp(20);
+        Item wizardGrub = new Item("Wizard Grub", 50, false, true, false);
+        wizardGrub.setHp(30);
+
 
         // NPCs
         NPC hans = new NPC("Hans", 1);
-        hans.addDialogue("weather", "It sure is nice out, isn't it?");
-        hans.addDialogue("threaten", "EEEEK! Don't hurt me!");
+        hans.addDialogue("Weather", "It sure is nice out, isn't it?");
+        hans.addDialogue("Threaten", "EEEEK! Don't hurt me!");
         NPC chef = new NPC("Chef", 2);
-        chef.addDialogue("how to cook", "I'd teach you how to cook but it hasn't been added yet.");
+        chef.addDialogue("How to cook", "I'd teach you how to cook but it hasn't been added yet.");
+        NPC kingRoald = new NPC("King Roald", 1);
+        kingRoald.addDialogue("Greet", "Welcome to Varrock, adventurer! I am King Roald.");
 
         // Monsters
         Monster cow = new Monster("Cow", 8, 1, 1, 1, 1);
         dropSet(cow, rawBeef, 0, 1);
         Monster goblin = new Monster("Goblin", 5, 1, 1, 1, 2);
-        dropSet(goblin, junk, 0, 50);
+        dropSet(goblin, goblinMeat, 0, 50);
         dropSet(goblin, goblinSword, 51, 75);
         Monster goblinGeneral = new Monster("Grubeater", 50, 10, 10, 10, 3);
-        dropSet(goblinGeneral, junk, 0, 32);
+        dropSet(goblinGeneral, goblinMeat, 0, 32);
         dropSet(goblinGeneral, goblinSword, 32, 40);
         dropSet(goblinGeneral, goblinMace, 41, 46);
         dropSet(goblinGeneral, goblinClub, 47, 48);
-        goblinGeneral.setDrop(goblinSword, 5);
-        goblinGeneral.setDrop(goblinClub, 6);
+        Monster varrockGuard = new Monster("Varrock Guard", 25, 5, 5, 5, 1);
+        dropSet(varrockGuard, varrockRations, 0, 32);
+        dropSet(varrockGuard, steelSword, 32, 40);
+        dropSet(varrockGuard, addySword, 40, 42);
+        dropSet(varrockGuard, runeSword, 42, 43);
+        Monster varrockArcher = new Monster("Varrock Archer", 20, 10, 2, 1, 2);
+        dropSet(varrockArcher, varrockRations, 0, 32);
+        dropSet(varrockArcher, steelKnuckles, 32, 40);
+        dropSet(varrockArcher, addyKnuckles, 40, 42);
+        dropSet(varrockArcher, runeKnuckles, 42, 43);
+        Monster varrockGeneral = new Monster("Sir Lancelot", 100, 25, 20, 20, 3);
+        dropSet(varrockGeneral, varrockRations, 0, 16);
+        dropSet(varrockGeneral, addySword, 16, 32);
+        dropSet(varrockGeneral, runeSword, 32, 36);
+        dropSet(varrockGeneral, excalibur, 36, 37);
+        Monster evilWizard = new Monster("Surok Magis", 250, 50, 50, 5, 4);
+        dropSet(evilWizard, wizardGrub, 0, 90);
+        dropSet(evilWizard, arcaneStaff, 90, 92);
 
         // Areas
         Area lumbridge = new Area("Lumbridge");
@@ -93,6 +135,11 @@ public class Client {
         lumbridge.addNPC(chef);
 
         Area varrock = new Area("Varrock");
+        varrock.addNPC(kingRoald);
+        varrock.addMonster(varrockGuard);
+        varrock.addMonster(varrockArcher);
+        varrock.addMonster(varrockGeneral);
+        varrock.addMonster(evilWizard);
 
         areas.put(lumbridge.getName(), lumbridge);
         areas.put(varrock.getName(), varrock);
@@ -122,7 +169,6 @@ public class Client {
                 File charFile = new File(heroName);
                 if (charFile.exists()) {
                     hero = new Character(heroName);
-                    hero.setLoc(areas.get("Lumbridge"));
                     break;
                 } else {
                     throw new FileNotFoundException("The file " + heroName + " is not an existing hero's save file.");
@@ -227,52 +273,91 @@ public class Client {
         }
     }
 
-    //helper method for shop, for buying items
+    // helper method for shop, for buying items
     public static void buyItem(Scanner console, Character hero) {
         System.out.println("------------------------------");
         System.out.println("You can purchase items using GP obtained from killing monsters and selling items.");
-        System.out.println("What item would you like to buy?");
-        CharManager c = new CharManager();
+        System.out.println("What would you like to buy?");
+        System.out.println("1: Food");
+        System.out.println("2: Weapons");
+        String itemChoice = console.next();
+        System.out.println("------------------------------");
         int itemCount = 0;
-        for (String itemName : c.getAllItems().keySet()) {
-            Item item = c.getAllItems().get(itemName);
-            if (item.isSold()) {
-                itemCount++; 
-                if (item.isWeapon()) {
-                    System.out.println(itemCount + ": " + itemName + " - " + item.getValue() + 
-                    " | Atk: " + item.getAtk() + ", Str: " + item.getStr());
-                } else {
-                    System.out.println(itemCount + ": " + itemName + " - " + item.getValue());
+        if (itemChoice.equals("1")) {
+            itemCount = 0;
+            for (Item item : Item.getItemsSortedByValue()) {
+                if (item.isSold() && item.isFood()) {
+                    itemCount++;
+                    System.out.println(itemCount + ": " + item + " - " + item.getValue());
                 }
             }
+            System.out.println((itemCount + 1) + ": leave");
+        } else if (itemChoice.equals("2")) {
+            itemCount = 0;
+            for (Item item : Item.getItemsSortedByValue()) {
+                if (item.isSold() && item.isWeapon()) {
+                    itemCount++;
+                    System.out.println(itemCount + ": " + item + " - " + item.getValue() +
+                            " | Atk: " + item.getAtk() + ", Str: " + item.getStr());
+                }
+            }
+            System.out.println((itemCount + 1) + ": leave");
         }
-        System.out.println((itemCount + 1) + ": leave");
+        
+        
         System.out.println("------------------------------");
         int choice = Integer.parseInt(console.next());
-        if (choice != itemCount + 1) {
+        if (choice <= itemCount + 1) {
+            System.out.println("How many would you like to buy?");
+            int amount = Integer.parseInt(console.next());
             itemCount = 1;
-            for (String itemName : c.getAllItems().keySet()) {
-                Item item = c.getAllItems().get(itemName);
-                if (item.isSold()) {
-                    if (itemCount == choice) {
-                        //check if player has enough GP
-                        if (item.getValue() > hero.getGP()) {
-                            System.out.println("You don't have enough GP for this purchase!");
+            if (itemChoice.equals("1")) {
+                for (Item item : Item.getItemsSortedByValue()) {
+                    if (item.isSold() && item.isFood()) {
+                        if (itemCount == choice) {
+                            // check if player has enough GP
+                            if ((item.getValue() * amount) > hero.getGP()) {
+                                System.out.println("You don't have enough GP for this purchase!");
+                                break;
+                            }
+                            hero.loseGP(item.getValue() * amount);
+                            System.out.println("------------------------------");
+                            System.out.println("You have purchased " + amount + " " + item + ". You now have "
+                                    + hero.getGP() + " GP.");
+                            hero.addToInv(item, amount);
                             break;
+                        } else {
+                            itemCount++;
                         }
-                        System.out.println("You have purchased a " + item + ". You now have " + hero.getGP() + " GP.");
-                        hero.addToInv(item, 1);
-                        hero.loseGP(item.getValue());
-                        break;
-                    } else {
-                        itemCount++;
                     }
-                } 
-            }
+                }
+            } else if (itemChoice.equals("2")) {
+                for (Item item : Item.getItemsSortedByValue()) {
+                    if (item.isSold() && item.isWeapon()) {
+                        if (itemCount == choice) {
+                            // check if player has enough GP
+                            if ((item.getValue() * amount) > hero.getGP()) {
+                                System.out.println("You don't have enough GP for this purchase!");
+                                break;
+                            }
+                            hero.loseGP(item.getValue() * amount);
+                            System.out.println("------------------------------");
+                            System.out.println("You have purchased " + amount + " " + item + ". You now have "
+                                    + hero.getGP() + " GP.");
+                            hero.addToInv(item, amount);
+                            break;
+                        } else {
+                            itemCount++;
+                        }
+                    }
+                }
+            } 
+        } else {
+            System.out.println("You leave the shop.");
         }
     }
 
-    //helper method for shop, for selling items
+    // helper method for shop, for selling items
     public static void sellItem(Scanner console, Character hero) {
         System.out.println("------------------------------");
         System.out.println("Selling an item grants you 50% of its value in GP.");
@@ -285,24 +370,35 @@ public class Client {
         System.out.println((itemCount + 1) + ": leave");
         System.out.println("------------------------------");
         int choice = Integer.parseInt(console.next());
-        if (choice != itemCount + 1) {
+
+        if (choice <= itemCount + 1) {
+            System.out.println("How many would you like to sell?");
+            int amount = Integer.parseInt(console.next());
             itemCount = 1;
             for (Item item : hero.getInv().keySet()) {
 
                 if (itemCount == choice) {
-                    //CHECK CASE OF BEING AN EQUIPPED WEAPON
-                    if (item.equals(hero.getWep()) && hero.getInv().get(item) == 1) {
+                    // if the amount to be sold is greater than count, sell all
+                    if (hero.getInv().get(item) < amount) {
+                        amount = hero.getInv().get(item);
+                    }
+                    // CHECK CASE OF BEING AN EQUIPPED WEAPON
+                    if ((item.equals(hero.getWep()) && hero.getInv().get(item) == 1)
+                            || item.equals(hero.getWep()) && amount == hero.getInv().get(item)) {
                         System.out.println(item + " is currently equipped. You cannot sell it at this time.");
                         break;
                     }
-                    hero.lowerItemValue(item);
-                    hero.gainGP(item.getValue() / 2);
-                    System.out.println(item + " has been sold. You now have " + hero.getGP() + " GP.");
+                    hero.lowerItemValue(item, amount);
+                    hero.gainGP((item.getValue() * amount) / 2);
+                    System.out.println(amount + " " + item + " have been sold. You now have " +
+                            hero.getGP() + " GP.");
                     break;
                 } else {
                     itemCount++;
                 }
             }
+        } else {
+            System.out.println("You leave the shop.");
         }
 
     }
@@ -310,6 +406,27 @@ public class Client {
     // TRAVELING PLACES
     public static void travel(Scanner console, Character hero) {
         System.out.println("Where would you like to travel to?");
+        int areaCount = 0;
+        for (String areaName : areas.keySet()) {
+            areaCount++;
+            System.out.println(areaCount + ": " + areaName);
+        }
+
+        int loc = Integer.parseInt(console.nextLine());
+        areaCount = 1;
+        for (String areaName : areas.keySet()) {
+            Area area = areas.get(areaName);
+            if (areaCount == loc && hero.getLoc() != area) {
+                System.out.println("You are now in " + area.toString() + ".");
+                hero.setLoc(area);
+                break;
+            } else if (areaCount == loc && hero.getLoc() == area) {
+                System.out.println("You are already in " + hero.getLoc() + ".");
+                break;
+            } else {
+                areaCount++;
+            }
+        }
 
     }
 
@@ -335,6 +452,8 @@ public class Client {
                 System.out.println("You approach an unsuspecting " + curr + ".");
             }
         }
+        //heal to full before fight
+        hero.setHp(hero.getMaxHp());
 
         // looping battle until hero or monster dies
         while (curr.getHp() > 0 && hero.getHp() > 0) {
@@ -388,8 +507,8 @@ public class Client {
 
                 if (hero.getHp() - hitPower <= 0) {
                     // YOU DYING
-                    System.out.print("You have passed out due to fatigue and find yourself in " +
-                            hero.getLoc() + ". ");
+                    System.out.println("You have passed out due to fatigue and find yourself in " +
+                            hero.getLoc() + ", with only half your money. ");
                     break;
                 } else {
                     hero.heroHit(hitPower);
@@ -429,12 +548,14 @@ public class Client {
                 System.out.println("What would you like to say?");
                 int options = curr.getDialogueOptions();
                 choice = Integer.parseInt(console.nextLine());
+                
                 // checking dialogue options
                 int newCount = 0;
                 for (String opt : curr.getDialogues().keySet()) {
                     newCount++;
                     if (choice == newCount) {
                         curr.speak(opt);
+                        System.out.println("------------------------------");
                     }
                 }
             }
@@ -459,14 +580,13 @@ public class Client {
             System.out.println("------------------------------");
 
             int weaponChoice = Integer.parseInt(console.nextLine());
-            
+
             if (hero.getWep() != null) {
                 if (weaponChoice == itemCount + 1) {
                     hero.unequipItem();
                 }
             }
-            
-            
+
             itemCount = 1;
             for (Item item : hero.getInv().keySet()) {
                 if (weaponChoice == itemCount && item.isWeapon()) {
@@ -477,7 +597,6 @@ public class Client {
                 }
             }
 
-            
         } else {
             System.out.println("You have no weapons to equip!");
         }
@@ -507,18 +626,25 @@ public class Client {
             }
             int choice = Integer.parseInt(console.nextLine());
             itemCount = 1;
-            for (Item item : hero.getInv().keySet()) {
-                if (choice == itemCount && item.isFood()) {
-                    hero.lowerItemValue(item);
-                    int newHp = (item.getHp() + hero.getHp());
+            Iterator<Item> iterator = hero.getInv().keySet().iterator();
+
+            while (iterator.hasNext()) {
+                Item iteratedItem = iterator.next();
+                if (choice == itemCount && iteratedItem.isFood()) {
+                    int newHp = (iteratedItem.getHp() + hero.getHp());
                     if (newHp > hero.getMaxHp()) {
                         newHp = hero.getMaxHp();
                     }
-                    System.out.println(item + " has been eaten. You are now " + newHp + " HP.");
+                    System.out.println(iteratedItem + " has been eaten. You are now " + newHp + " HP.");
+                    hero.heroHit(iteratedItem.getHp() * -1);
 
-                    hero.heroHit(item.getHp() * -1);
-
-                } else if (item.isFood()) {
+                    if (hero.getInv().get(iteratedItem) == 1) {
+                        iterator.remove();
+                    } else {
+                        hero.lowerItemValue(iteratedItem, 1);
+                    }
+                    
+                } else if (iteratedItem.isFood()) {
                     itemCount++;
                 }
             }
