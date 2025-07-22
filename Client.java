@@ -371,7 +371,7 @@ public class Client {
         System.out.println("------------------------------");
         int choice = Integer.parseInt(console.next());
 
-        if (choice <= itemCount + 1) {
+        if (choice < itemCount + 1) {
             System.out.println("How many would you like to sell?");
             int amount = Integer.parseInt(console.next());
             itemCount = 1;
@@ -478,6 +478,7 @@ public class Client {
                         Item drop = curr.getDrop(r.nextInt(curr.getDropRange()));
                         System.out.println("You receive a " + drop + ".");
                         System.out.println("------------------------------");
+
                         hero.monsterKill(curr.getMaxHp());
                         hero.addToInv(drop, 1);
                         curr.monsterRespawn();
@@ -509,6 +510,7 @@ public class Client {
                     // YOU DYING
                     System.out.println("You have passed out due to fatigue and find yourself in " +
                             hero.getLoc() + ", with only half your money. ");
+                            hero.characterDeath();
                     break;
                 } else {
                     hero.heroHit(hitPower);
@@ -559,6 +561,7 @@ public class Client {
                     }
                 }
             }
+            break;
         }
     }
 
@@ -627,8 +630,9 @@ public class Client {
             int choice = Integer.parseInt(console.nextLine());
             itemCount = 1;
             Iterator<Item> iterator = hero.getInv().keySet().iterator();
+            boolean foodAte = false;
 
-            while (iterator.hasNext()) {
+            while (iterator.hasNext() && !foodAte) {
                 Item iteratedItem = iterator.next();
                 if (choice == itemCount && iteratedItem.isFood()) {
                     int newHp = (iteratedItem.getHp() + hero.getHp());
@@ -636,7 +640,8 @@ public class Client {
                         newHp = hero.getMaxHp();
                     }
                     System.out.println(iteratedItem + " has been eaten. You are now " + newHp + " HP.");
-                    hero.heroHit(iteratedItem.getHp() * -1);
+                    hero.setHp(newHp);
+                    foodAte = true;
 
                     if (hero.getInv().get(iteratedItem) == 1) {
                         iterator.remove();
