@@ -1,0 +1,17 @@
+{
+  "name": "rokascape",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "verify": "tsx src/verify-runner.ts"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.2",
+    "typescript": "^5.4.5",
+    "vite": "^5.4.11"
+  }
+}

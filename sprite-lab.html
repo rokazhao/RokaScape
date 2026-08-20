@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Sprite Lab</title>
+    <style>
+      body { margin: 0; background: #1b1610; color: #f2e7d0; font: 11px monospace; }
+      #lab { display: flex; flex-wrap: wrap; gap: 6px; padding: 8px; }
+      .cell { text-align: center; }
+      canvas { display: block; image-rendering: pixelated; }
+    </style>
+  </head>
+  <body>
+    <div id="lab"></div>
+    <script type="module">
+      import { SPRITES, drawAnimatedEntity, createShopkeeperPortraitCanvas } from '/src/ui/sprites.ts';
+
+      const params = new URLSearchParams(location.search);
+      const size = Number(params.get('size') ?? 240);
+      const frame = Number(params.get('frame') ?? 0);
+      const ground = params.get('bg') ?? '#3d5c2e';
+      const which = params.get('ids');
+      const lab = document.getElementById('lab');
+
+      if (params.get('portraits') !== null) {
+        for (const kind of ['general', 'blacksmith', 'dwarf', 'inventor', 'hobbit', 'vampyre', 'tzhaar', 'skeleton', 'orc']) {
+          const cell = document.createElement('div');
+          cell.className = 'cell';
+          const holder = document.createElement('div');
+          holder.style.cssText = `width:${size}px;height:${size}px;overflow:hidden;background:linear-gradient(180deg,#3b2f1d,#191308)`;
+          holder.appendChild(createShopkeeperPortraitCanvas(kind, size));
+          cell.appendChild(holder);
+          cell.appendChild(document.createElement('div')).textContent = kind;
+          lab.appendChild(cell);
+        }
+      } else {
+        const ids = which ? which.split(',') : Object.keys(SPRITES);
+        for (const id of ids) {
+          const cell = document.createElement('div');
+          cell.className = 'cell';
+          const canvas = document.createElement('canvas');
+          canvas.width = size;
+          canvas.height = size;
+          const ctx = canvas.getContext('2d');
+          ctx.imageSmoothingEnabled = false;
+          ctx.fillStyle = ground;
+          ctx.fillRect(0, 0, size, size);
+          drawAnimatedEntity(ctx, id, size / 2, size - 10, size * 0.8, frame, {
+            hovered: false,
+            inCombat: false,
+          });
+          cell.appendChild(canvas);
+          cell.appendChild(document.createElement('div')).textContent = id;
+          lab.appendChild(cell);
+        }
+      }
+    </script>
+  </body>
+</html>
