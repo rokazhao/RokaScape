@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Nav Lab</title>
+    <style>
+      body { margin: 0; background: #14100a; color: #f2e7d0; font: 12px monospace; }
+      .wrap { padding: 6px; }
+      .row { display: flex; flex-wrap: wrap; gap: 6px; }
+      figure { margin: 0; }
+      figcaption { padding: 2px 0; }
+      canvas { display: block; image-rendering: pixelated; }
+    </style>
+  </head>
+  <body>
+    <div class="wrap"><div class="row" id="row"></div></div>
+    <script type="module">
+      import { AREAS } from '/src/content/areas.ts';
+      import { isWalkable, findInteractionPoint, findWalkPath } from '/src/content/navigation.ts';
+
+      const params = new URLSearchParams(location.search);
+      const only = params.get('area');
+      const scale = Number(params.get('scale') ?? 1);
+      const row = document.getElementById('row');
+
+      for (const area of AREAS) {
+        if (only && area.id !== only) continue;
+        const figure = document.createElement('figure');
+        const canvas = document.createElement('canvas');
+        canvas.width = area.mapWidth * scale;
+        canvas.height = area.mapHeight * scale;
+        const ctx = canvas.getContext('2d');
+        const img = new Image();
+        img.src = area.backdrop;
+        await new Promise((done) => { img.onload = done; img.onerror = done; });
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+        // Green = walkable ground, red = blocked.
+        const step = 6;
+        for (let y = 0; y < area.mapHeight; y += step) {
+          for (let x = 0; x < area.mapWidth; x += step) {
+            const ok = isWalkable(area.id, { x, y });
+            ctx.fillStyle = ok ? 'rgba(80,255,110,0.45)' : 'rgba(255,40,40,0.12)';
+            ctx.fillRect(x * scale, y * scale, step * scale - 1, step * scale - 1);
+          }
+        }
+
+        // Entities: cyan dot, plus the approach point the pathfinder would use.
+        for (const spawn of area.spawns) {
+          const approach = findInteractionPoint(area, area.playerSpawn, spawn);
+          const reachable = approach && findWalkPath(area, area.playerSpawn, approach);
+          ctx.fillStyle = reachable ? '#3fd0ff' : '#ff2bd0';
+          ctx.beginPath();
+          ctx.arc(spawn.x * scale, spawn.y * scale, 5 * scale, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.strokeStyle = '#000';
+          ctx.stroke();
+          if (approach) {
+            ctx.fillStyle = '#ffd75e';
+            ctx.fillRect((approach.x - 2) * scale, (approach.y - 2) * scale, 4 * scale, 4 * scale);
+          }
+        }
+        // Player spawn in white.
+        ctx.fillStyle = '#fff';
+        ctx.fillRect((area.playerSpawn.x - 3) * scale, (area.playerSpawn.y - 3) * scale, 6 * scale, 6 * scale);
+
+        figure.appendChild(canvas);
+        const caption = document.createElement('figcaption');
+        caption.textContent = area.id;
+        figure.appendChild(caption);
+        row.appendChild(figure);
+      }
+    </script>
+  </body>
+</html>

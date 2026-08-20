@@ -45,9 +45,15 @@
           ctx.imageSmoothingEnabled = false;
           ctx.fillStyle = ground;
           ctx.fillRect(0, 0, size, size);
+          const gear = {};
+          for (const pair of (params.get('gear') ?? '').split(',').filter(Boolean)) {
+            const [slot, itemId] = pair.split(':');
+            gear[slot] = itemId;
+          }
           drawAnimatedEntity(ctx, id, size / 2, size - 10, size * 0.8, frame, {
             hovered: false,
             inCombat: false,
+            equipment: gear,
           });
           cell.appendChild(canvas);
           cell.appendChild(document.createElement('div')).textContent = id;

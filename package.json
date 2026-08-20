@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "verify": "tsx src/verify-runner.ts"
+    "verify": "tsx src/verify-runner.ts",
+    "build:nav": "tsx tools/build-nav-masks.ts"
   },
   "devDependencies": {
     "tsx": "^4.19.2",
